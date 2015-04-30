@@ -20,9 +20,9 @@
     "express": "~4.12.3",
     "gulp": "~3.8.11",
     "gulp-nodemon": "~2.0.2",
-    "yargs": "^3.8.0"
+    "yargs": "^3.8.0",
+    "browser-sync": "~2.6.5"
   },
   "devDependencies": {
-    "browser-sync": "~2.6.5"
   }
 }
