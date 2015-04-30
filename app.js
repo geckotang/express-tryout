@@ -4,12 +4,12 @@ var config = require('./config.json');
 var express = require('express');
 var basicAuth = require("basic-auth-connect");
 var port = process.env.PORT || config.wwwPort;
+var BASIC_AUTH_USER = process.env.BASIC_AUTH_USER || '';
+var BASIC_AUTH_PASSWORD = process.env.BASIC_AUTH_PASSWORD || '';
 var app = module.exports = express();
 
-if (config.basicAuth) {
-  app.use(basicAuth(function(user, pass){
-    return config.basicAuth[user] && config.basicAuth[user] === pass;
-  }));
+if (BASIC_AUTH_USER && BASIC_AUTH_PASSWORD) {
+  app.use(basicAuth(BASIC_AUTH_USER, BASIC_AUTH_PASSWORD));
 }
 app.use(express.static(config.wwwDir));
 app.listen(port, function(){
