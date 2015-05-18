@@ -2,8 +2,5 @@
   "serverJS": "app.js",
   "wwwDir": "www",
   "wwwPort": 5000,
-  "browserSyncPort": 3000,
-  "basicAuth": {
-    "user": "password"
-  }
+  "browserSyncPort": 3000
 }

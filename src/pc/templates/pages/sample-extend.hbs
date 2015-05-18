@@ -1,0 +1,27 @@
+{{#extend "layout"}}
+
+  {{#content "head" mode="append"}}
+  <link rel="stylesheet" href="assets/css/home.css" />
+  {{/content}}
+
+  {{#content "header" mode="append"}}
+    <p>ヘッダーです</p>
+  {{/content}}
+
+
+  {{#content "body"}}
+    <h2>Welcome Home</h2>
+    <p>こんにちは、コンテンツです</p>
+  {{/content}}
+
+
+  {{#content "footer" mode="prepend"}}
+    <hr>
+    <p>フッターです</p>
+  {{/content}}
+
+
+{{#content "foot" mode="prepend"}}
+<script src="assets/js/analytics.js"></script>
+{{/content}}
+{{/extend}}
