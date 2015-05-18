@@ -18,16 +18,49 @@ var config = JSON.parse(fs.readFileSync(__dirname+'/config.json'));
 var BROWSER_SYNC_RELOAD_DELAY = 500;
 var env = args.env || 'development';
 var isProd = env === 'production';
+var supportBrowsers = [ 'ie >= 10', 'ios >= 7', 'android >= 4.0' ];
 var srcDir = {
-  pc: './src/pc',
-  sp: './src/sp'
+  pc: __dirname + '/src/pc',
+  sp: __dirname + '/src/sp'
 };
 var destDir = {
-  pc: './www',
-  sp: './www/s'
+  pc: __dirname + '/www',
+  sp: __dirname + '/www/s'
 };
 
 gulp.task('default', ['browser-sync']);
+
+//PC用Sass
+gulp.task('sass:pc', function() {
+  return gulp.src(srcDir.pc + '/styles/**/*.scss')
+    .pipe(plugin.plumber())
+    .pipe(plugin.sass({
+      errLogToConsole: true
+    }))
+    .pipe(plugin.autoprefixer(supportBrowsers))
+    .pipe(plugin.chmod(644))
+    .pipe(plugin.if(isProd, plugin.filter(['*', '!*.map'])))
+    .pipe(gulp.dest(destDir.pc + '/styles'))
+    .pipe(plugin.if(isProd, plugin.minifyCss()))
+    .pipe(plugin.if(isProd, plugin.rename({ extname: '.min.css' })))
+    .pipe(plugin.if(isProd, gulp.dest(destDir.pc + '/styles')));
+});
+
+//SP用Sass
+gulp.task('sass:sp', function() {
+  return gulp.src(srcDir.sp + '/styles/**/*.scss')
+    .pipe(plugin.plumber())
+    .pipe(plugin.sass({
+      errLogToConsole: true
+    }))
+    .pipe(plugin.autoprefixer(supportBrowsers))
+    .pipe(plugin.chmod(644))
+    .pipe(plugin.if(isProd, plugin.filter(['*', '!*.map'])))
+    .pipe(gulp.dest(destDir.sp + '/styles'))
+    .pipe(plugin.if(isProd, plugin.minifyCss()))
+    .pipe(plugin.if(isProd, plugin.rename({ extname: '.min.css' })))
+    .pipe(plugin.if(isProd, gulp.dest(destDir.sp + '/styles')));
+});
 
 //PC用HTMLビルド
 gulp.task('html:pc', function() {
