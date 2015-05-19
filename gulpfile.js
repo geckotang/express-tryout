@@ -97,13 +97,13 @@ gulp.task('html:sp', function() {
 });
 
 gulp.task('browser-sync', ['server'], function() {
-	browserSync.init(null, {
-		proxy: 'http://localhost:'+config.wwwPort,
+  browserSync.init(null, {
+    proxy: 'http://localhost:'+config.wwwPort,
     files: [
       config.wwwDir+'/**/*.*'
     ],
     port: config.browserSyncPort
-	});
+  });
 });
 
 gulp.task('server', function (cb) {
