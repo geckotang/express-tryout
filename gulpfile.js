@@ -10,6 +10,7 @@ var nodemon = require('gulp-nodemon');
 var args = require('yargs').argv;
 var browserSync = require('browser-sync');
 var del = require('del');
+var runSequence = require('run-sequence');
 var plugin = require('gulp-load-plugins')();
 
 // settings
@@ -31,6 +32,10 @@ var destDir = {
 };
 
 gulp.task('default', ['browser-sync']);
+
+gulp.task('clean', function(cb) {
+  del(destDir.pc, { force: true }, cb);
+});
 
 //PC用Sass
 gulp.task('sass:pc', function() {
