@@ -20,12 +20,14 @@ var env = args.env || 'development';
 var isProd = env === 'production';
 var supportBrowsers = [ 'ie >= 10', 'ios >= 7', 'android >= 4.0' ];
 var srcDir = {
-  pc: __dirname + '/src/pc',
-  sp: __dirname + '/src/sp'
+  common : __dirname + '/src/common',
+  pc     : __dirname + '/src/pc',
+  sp     : __dirname + '/src/sp'
 };
 var destDir = {
-  pc: __dirname + '/www',
-  sp: __dirname + '/www/s'
+  common : __dirname + '/www/common',
+  pc     : __dirname + '/www',
+  sp     : __dirname + '/www/s'
 };
 
 gulp.task('default', ['browser-sync']);
@@ -94,6 +96,12 @@ gulp.task('html:sp', function() {
       path.extname = '.html';
     }))
     .pipe(gulp.dest(destDir.sp));
+});
+
+//PC/SP用共通ファイルコピー
+gulp.task('common', function() {
+  return gulp.src(srcDir.common + '/**/*')
+    .pipe(gulp.dest(destDir.common));
 });
 
 //PC用JSコピー
