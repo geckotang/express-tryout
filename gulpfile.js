@@ -31,14 +31,15 @@ var destDir = {
   sp     : __dirname + '/www/s'
 };
 
-gulp.task('default', ['browser-sync']);
+plugin.help(gulp);
 
-gulp.task('clean', function(cb) {
+gulp.task('default', 'Run build task', ['build']);
+
+gulp.task('clean', 'Clean dest files', function(cb) {
   del(destDir.pc, { force: true }, cb);
 });
 
-//PC用Sass
-gulp.task('sass:pc', function() {
+gulp.task('sass:pc', 'Build CSS files for PC', function() {
   return gulp.src(srcDir.pc + '/styles/**/*.scss')
     .pipe(plugin.plumber())
     .pipe(plugin.sass({
@@ -53,8 +54,7 @@ gulp.task('sass:pc', function() {
     .pipe(plugin.if(isProd, gulp.dest(destDir.pc + '/styles')));
 });
 
-//SP用Sass
-gulp.task('sass:sp', function() {
+gulp.task('sass:sp', 'Build CSS files for SP', function() {
   return gulp.src(srcDir.sp + '/styles/**/*.scss')
     .pipe(plugin.plumber())
     .pipe(plugin.sass({
@@ -69,10 +69,9 @@ gulp.task('sass:sp', function() {
     .pipe(plugin.if(isProd, gulp.dest(destDir.sp + '/styles')));
 });
 
-gulp.task('sass', ['sass:pc', 'sass:sp']);
+gulp.task('sass', 'Build CSS files', ['sass:pc', 'sass:sp']);
 
-//PC用HTMLビルド
-gulp.task('html:pc', function() {
+gulp.task('html:pc', 'Build HTML files for PC w/ Handlebars', function() {
   return gulp.src(srcDir.pc + '/templates/pages/*.hbs')
     .pipe(plugin.hb({
       data: srcDir.pc + '/templates/data/**/*.{js,json}',
@@ -88,8 +87,7 @@ gulp.task('html:pc', function() {
     .pipe(gulp.dest(destDir.pc));
 });
 
-//SP用HTMLビルド
-gulp.task('html:sp', function() {
+gulp.task('html:sp', 'Build HTML files for PC w/ Handlebars', function() {
   return gulp.src(srcDir.sp + '/templates/pages/*.hbs')
     .pipe(plugin.hb({
       data: srcDir.sp + '/templates/data/**/*.{js,json}',
@@ -105,48 +103,42 @@ gulp.task('html:sp', function() {
     .pipe(gulp.dest(destDir.sp));
 });
 
-gulp.task('html', ['html:pc', 'html:sp']);
+gulp.task('html', 'Build HTML files w/ Handlebars', ['html:pc', 'html:sp']);
 
-//PC/SP用共通ファイルコピー
-gulp.task('common', function() {
+gulp.task('common', 'Copy common files', function() {
   return gulp.src(srcDir.common + '/**/*')
     .pipe(gulp.dest(destDir.common));
 });
 
-//PC用JSコピー
-gulp.task('scripts:pc', function() {
+gulp.task('scripts:pc', 'Copy JavaScript files for PC', function() {
   return gulp.src(srcDir.pc + '/scripts/**/*')
     .pipe(gulp.dest(destDir.pc + '/scripts'));
 });
 
-//SP用JSコピー
-gulp.task('scripts:sp', function() {
+gulp.task('scripts:sp', 'Copy JavaScript files for SP', function() {
   return gulp.src(srcDir.sp + '/scripts/**/*')
     .pipe(gulp.dest(destDir.sp + '/scripts'));
 });
 
-gulp.task('scripts', ['scripts:pc', 'scripts:sp']);
+gulp.task('scripts', 'Copy JavaScript files', ['scripts:pc', 'scripts:sp']);
 
-//PC用画像コピー
-gulp.task('images:pc', function() {
+gulp.task('images:pc', 'Copy images for PC', function() {
   return gulp.src(srcDir.pc + '/images/**/*')
     .pipe(gulp.dest(destDir.pc + '/images'));
 });
 
-//SP用画像コピー
-gulp.task('images:sp', function() {
+gulp.task('images:sp', 'Copy images for SP', function() {
   return gulp.src(srcDir.sp + '/images/**/*')
     .pipe(gulp.dest(destDir.sp + '/images'));
 });
 
-gulp.task('images', ['images:pc', 'images:sp']);
+gulp.task('images', 'Copy images', ['images:pc', 'images:sp']);
 
-//ビルドタスク
-gulp.task('build', function(cb) {
+gulp.task('build', 'Build all assets', function(cb) {
   runSequence('clean', ['sass', 'html', 'scripts', 'images', 'common'], cb);
 });
 
-gulp.task('browser-sync', ['server'], function() {
+gulp.task('browser-sync', 'Run browserSync w/ proxy local server', ['server'], function() {
   browserSync.init(null, {
     proxy: 'http://localhost:'+config.wwwPort,
     files: [
@@ -156,7 +148,7 @@ gulp.task('browser-sync', ['server'], function() {
   });
 });
 
-gulp.task('server', function (cb) {
+gulp.task('server', 'Run server', function (cb) {
   var called = false;
   return nodemon({
     script: config.serverJS,
