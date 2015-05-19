@@ -69,6 +69,8 @@ gulp.task('sass:sp', function() {
     .pipe(plugin.if(isProd, gulp.dest(destDir.sp + '/styles')));
 });
 
+gulp.task('sass', ['sass:pc', 'sass:sp']);
+
 //PC用HTMLビルド
 gulp.task('html:pc', function() {
   return gulp.src(srcDir.pc + '/templates/pages/*.hbs')
@@ -103,6 +105,8 @@ gulp.task('html:sp', function() {
     .pipe(gulp.dest(destDir.sp));
 });
 
+gulp.task('html', ['html:pc', 'html:sp']);
+
 //PC/SP用共通ファイルコピー
 gulp.task('common', function() {
   return gulp.src(srcDir.common + '/**/*')
@@ -136,6 +140,11 @@ gulp.task('images:sp', function() {
 });
 
 gulp.task('images', ['images:pc', 'images:sp']);
+
+//ビルドタスク
+gulp.task('build', function(cb) {
+  runSequence('clean', ['sass', 'html', 'scripts', 'images', 'common'], cb);
+});
 
 gulp.task('browser-sync', ['server'], function() {
   browserSync.init(null, {
