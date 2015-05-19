@@ -79,7 +79,8 @@ gulp.task('html:pc', 'Build HTML files for PC w/ Handlebars', function() {
         handlebarsLayoutsHelper,
         srcDir.pc + '/templates/helpers/*.js'
       ],
-      partials: srcDir.pc + '/templates/partials/**/*.hbs'
+      partials: srcDir.pc + '/templates/partials/**/*.hbs',
+      bustCache: true
     }))
     .pipe(plugin.rename(function(path) {
       path.extname = '.html';
@@ -95,7 +96,8 @@ gulp.task('html:sp', 'Build HTML files for PC w/ Handlebars', function() {
         handlebarsLayoutsHelper,
         srcDir.sp + '/templates/helpers/*.js'
       ],
-      partials: srcDir.sp + '/templates/partials/**/*.hbs'
+      partials: srcDir.sp + '/templates/partials/**/*.hbs',
+      bustCache: true
     }))
     .pipe(plugin.rename(function(path) {
       path.extname = '.html';
@@ -148,7 +150,40 @@ gulp.task('browser-sync', 'Run browserSync w/ proxy local server', ['server'], f
   });
 });
 
-gulp.task('server', 'Run server', function (cb) {
+gulp.task('watch', 'Watch changed files', function () {
+  //共通watch
+  plugin.watch([srcDir.common+'/**/*'], function(e){
+    gulp.start(['common']);
+  });
+  //PC用watch
+  plugin.watch([srcDir.pc+'/styles/**/*.scss'], function(e){
+    gulp.start(['sass:pc']);
+  });
+  plugin.watch([srcDir.pc+'/scripts/**/*'], function(e){
+    gulp.start(['scripts:pc']);
+  });
+  plugin.watch([srcDir.pc+'/images/**/*'], function(e){
+    gulp.start(['images:pc']);
+  });
+  plugin.watch([srcDir.pc+'/templates/**/*'], function(e){
+    gulp.start(['html:pc']);
+  });
+  //SP用watch
+  plugin.watch([srcDir.sp+'/styles/**/*.scss'], function(e){
+    gulp.start(['sass:sp']);
+  });
+  plugin.watch([srcDir.sp+'/scripts/**/*'], function(e){
+    gulp.start(['scripts:sp']);
+  });
+  plugin.watch([srcDir.sp+'/images/**/*'], function(e){
+    gulp.start(['images:sp']);
+  });
+  plugin.watch([srcDir.sp+'/templates/**/*'], function(e){
+    gulp.start(['html:sp']);
+  });
+});
+
+gulp.task('server', 'Run server', ['build', 'watch'], function (cb) {
   var called = false;
   return nodemon({
     script: config.serverJS,
