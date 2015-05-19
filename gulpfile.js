@@ -96,6 +96,20 @@ gulp.task('html:sp', function() {
     .pipe(gulp.dest(destDir.sp));
 });
 
+//PC用画像コピー
+gulp.task('images:pc', function() {
+  return gulp.src(srcDir.pc + '/images/**/*')
+    .pipe(gulp.dest(destDir.pc + '/images'));
+});
+
+//SP用画像コピー
+gulp.task('images:sp', function() {
+  return gulp.src(srcDir.sp + '/images/**/*')
+    .pipe(gulp.dest(destDir.sp + '/images'));
+});
+
+gulp.task('images', ['images:pc', 'images:sp']);
+
 gulp.task('browser-sync', ['server'], function() {
   browserSync.init(null, {
     proxy: 'http://localhost:'+config.wwwPort,
