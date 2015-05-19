@@ -96,6 +96,20 @@ gulp.task('html:sp', function() {
     .pipe(gulp.dest(destDir.sp));
 });
 
+//PC用JSコピー
+gulp.task('scripts:pc', function() {
+  return gulp.src(srcDir.pc + '/scripts/**/*')
+    .pipe(gulp.dest(destDir.pc + '/scripts'));
+});
+
+//SP用JSコピー
+gulp.task('scripts:sp', function() {
+  return gulp.src(srcDir.sp + '/scripts/**/*')
+    .pipe(gulp.dest(destDir.sp + '/scripts'));
+});
+
+gulp.task('scripts', ['scripts:pc', 'scripts:sp']);
+
 //PC用画像コピー
 gulp.task('images:pc', function() {
   return gulp.src(srcDir.pc + '/images/**/*')
