@@ -26,9 +26,9 @@ var srcDir = {
   sp     : __dirname + '/src/sp'
 };
 var destDir = {
-  common : __dirname + '/www/common',
-  pc     : __dirname + '/www',
-  sp     : __dirname + '/www/s'
+  common : __dirname + '/'+config.wwwDir+'/common',
+  pc     : __dirname + '/'+config.wwwDir,
+  sp     : __dirname + '/'+config.wwwDir+'/s'
 };
 
 plugin.help(gulp);
