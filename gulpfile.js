@@ -105,7 +105,9 @@ gulp.task('html:sp', 'Build HTML files for PC w/ Handlebars', function() {
     .pipe(gulp.dest(destDir.sp));
 });
 
-gulp.task('html', 'Build HTML files w/ Handlebars', ['html:pc', 'html:sp']);
+gulp.task('html', 'Build HTML files w/ Handlebars', function(cb) {
+  return runSequence('html:pc', 'html:sp', cb);
+});
 
 gulp.task('common', 'Copy common files', function() {
   return gulp.src(srcDir.common + '/**/*')
@@ -137,7 +139,7 @@ gulp.task('images:sp', 'Copy images for SP', function() {
 gulp.task('images', 'Copy images', ['images:pc', 'images:sp']);
 
 gulp.task('build', 'Build all assets', function(cb) {
-  runSequence('clean', ['sass', 'html', 'scripts', 'images', 'common'], cb);
+  return runSequence('clean', ['sass', 'html', 'scripts', 'images', 'common'], cb);
 });
 
 gulp.task('browser-sync', 'Run browserSync w/ proxy local server', ['server'], function() {
