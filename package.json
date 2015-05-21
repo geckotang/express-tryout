@@ -4,7 +4,8 @@
   "description": "express with gulp and assemble",
   "main": "app.js",
   "scripts": {
-    "start": "gulp",
+    "start": "gulp browser-sync",
+    "build": "gulp build",
     "server": "gulp server"
   },
   "engines": {
