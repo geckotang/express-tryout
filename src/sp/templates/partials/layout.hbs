@@ -2,8 +2,8 @@
 <html lang="en-us">
 <head>
 {{#block "head"}}
-  <title>サイト名</title>
-  <link rel="stylesheet" href="assets/css/screen.css" />
+  <title>サイト名(SP)</title>
+  <link rel="stylesheet" href="/s/styles/style.css" />
 {{/block}}
 </head>
 <body>
@@ -11,11 +11,17 @@
 <div class="site">
   <div class="site-hd" role="banner">
     {{#block "header"}}
-    <h1>{{title}}</h1>
+    <h1>スマホ版</h1>
     {{/block}}
   </div>
 
   <div class="site-bd" role="main">
+    <ul>
+      <li><a href="/s/">index</a></li>
+      <li><a href="/s/sample-extend.html">sample-extend.html</a></li>
+      <li><a href="/s/sample-partial.html">sample-partial.html</a></li>
+      <li><a href="/s/sample-use-data.html">sample-use-data.html</a></li>
+    </ul>
     {{#block "body"}}
     {{/block}}
   </div>
@@ -28,7 +34,7 @@
 </div>
 
 {{#block "foot"}}
-<script src="assets/js/controllers/home.js"></script>
+<script src="/s/path/to/file"></script>
 {{/block}}
 </body>
 </html>

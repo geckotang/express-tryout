@@ -1,5 +1,9 @@
 @charset 'utf-8';
 
+html, body {
+  background-color: #efe;
+}
+
 @import 'modules/_block-1';
 @import 'modules/_block-2';
 @import 'modules/_block-3';
